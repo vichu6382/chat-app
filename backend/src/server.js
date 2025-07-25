@@ -6,11 +6,13 @@ import userRoutes from "./routes/user.route.js";
 import chatRoutes from "./routes/chat.route.js";
 import { connectDB } from "./lib/db.js";
 import cookieParser from "cookie-parser";
+import path from "path";
 
 const app = express();
 
 const PORT = process.env.PORT || 5000;
 
+const __dirname = path.resolve();
 
 app.use(
   cors({
@@ -18,7 +20,6 @@ app.use(
     credentials: true,
   })
 );
-
 app.use(express.json());
 app.use(cookieParser());
 
@@ -28,8 +29,13 @@ app.use("/api/chat", chatRoutes);
 
 app.use("/uploads", express.static("uploads"));
 
+if (process.env.NODE_ENV !== "production") {
+  app.listen(PORT, () => {
+    console.log(`server is running on ${PORT}`);
+    connectDB();
+  });
+}
 
-app.listen(PORT, () => {
-  console.log(`server is running on ${PORT}`);
-  connectDB();
-});
+
+// Export server for Vercel
+export default server;
