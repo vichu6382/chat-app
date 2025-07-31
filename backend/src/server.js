@@ -6,6 +6,8 @@ import userRoutes from "./routes/user.route.js";
 import chatRoutes from "./routes/chat.route.js";
 import { connectDB } from "./lib/db.js";
 import cookieParser from "cookie-parser";
+import app from '../backend/src/server.js';
+
 
 const app = express();
 
